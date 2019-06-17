@@ -38,7 +38,8 @@ def fingerprints_from_file(infile_name):
     suppl = molecule_supplier_from_name(infile_name)
     fp_list = []
     for mol in tqdm(suppl,desc=f"Reading {infile_name}"):
-        fp_list.append([Chem.MolToSmiles(mol), mol.GetProp("_Name"), MACCSkeys.GenMACCSKeys(mol)])
+        if mol:
+            fp_list.append([Chem.MolToSmiles(mol), mol.GetProp("_Name"), MACCSkeys.GenMACCSKeys(mol)])
     return fp_list
 
 
