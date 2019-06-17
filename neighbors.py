@@ -37,7 +37,7 @@ def molecule_supplier_from_name(input_file_name):
 def fingerprints_from_file(infile_name):
     suppl = molecule_supplier_from_name(infile_name)
     fp_list = []
-    for mol in suppl:
+    for mol in tqdm(suppl,desc=f"Reading {infile_name}"):
         fp_list.append([Chem.MolToSmiles(mol), mol.GetProp("_Name"), MACCSkeys.GenMACCSKeys(mol)])
     return fp_list
 
@@ -63,7 +63,7 @@ if __name__ == "__main__":
 
     writer = csv.writer(open(output_filename, "w"))
     writer.writerow(["SMILES", "Name", "SIMILARITY", "QUERY"])
-    for query_smi, query_name, query_fp in tqdm(query_fp_list):
+    for query_smi, query_name, query_fp in tqdm(query_fp_list, desc="Finding Neighbors"):
         res = get_neighbors(query_fp, db_fp_list)
         for row in res:
             smiles, name, _, sim = row
