@@ -56,7 +56,7 @@ if __name__ == "__main__":
     query_filename = options.get("--query")
     db_filename = options.get("--db")
     output_filename = options.get("--out")
-    max_neighbors = options.get("--max") or 5
+    max_neighbors = int(options.get("--max")) or 5
     sim_limit = float(options.get("--sim")) or 0.8
 
     db_fp_list = fingerprints_from_file(db_filename)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     writer = csv.writer(open(output_filename, "w"))
     writer.writerow(["SMILES", "Name", "SIMILARITY", "QUERY"])
     for query_smi, query_name, query_fp in tqdm(query_fp_list, desc="Finding Neighbors"):
-        res = get_neighbors(query_fp, db_fp_list, cutoff=sim_limit)
+        res = get_neighbors(query_fp, db_fp_list, cutoff=sim_limit,max_nbrs=max_neighbors)
         for row in res:
             smiles, name, _, sim = row
             writer.writerow([smiles, name, f"{sim:.2f}", query_name])
