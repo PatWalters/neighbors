@@ -56,8 +56,10 @@ if __name__ == "__main__":
     query_filename = options.get("--query")
     db_filename = options.get("--db")
     output_filename = options.get("--out")
-    max_neighbors = int(options.get("--max")) or 5
-    sim_limit = float(options.get("--sim")) or 0.8
+    max_neighbors = options.get("--max") or 5
+    max_neighbors = int(max_neighbors)
+    sim_limit = options.get("--sim") or 0.8
+    sim_limit = float(sim_limit)
 
     db_fp_list = fingerprints_from_file(db_filename)
     query_fp_list = fingerprints_from_file(query_filename)
